@@ -1,0 +1,24 @@
+apply plugin: 'java'
+
+def main_class = 'Light'
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+
+        dependencies {
+            compile files('../lejos-ev3/DBusJava/dbusjava.jar',
+                          '../lejos-ev3/ev3classes/ev3classes.jar')
+        }
+
+        jar {
+            manifest {
+                attributes('Main-Class': main_class,
+                           'Class-Path': '/home/root/lejos/lib/ev3classes.jar /home/root/lejos/libjna/usr/share/java/jna/jar')
+            }
+        }
+    }
+}
+
