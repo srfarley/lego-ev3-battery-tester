@@ -4,10 +4,6 @@ def main_class = 'Light'
 
 sourceSets {
     main {
-        java {
-            srcDirs = ['src']
-        }
-
         dependencies {
             compile files('../lejos-ev3/DBusJava/dbusjava.jar',
                           '../lejos-ev3/ev3classes/ev3classes.jar')
@@ -21,4 +17,3 @@ sourceSets {
         }
     }
 }
-
