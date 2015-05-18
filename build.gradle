@@ -1,6 +1,6 @@
 apply plugin: 'java'
 
-def main_class = 'Light'
+def main_class = 'LightSampler'
 
 sourceSets {
     main {
