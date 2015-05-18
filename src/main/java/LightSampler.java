@@ -18,7 +18,7 @@ public class LightSampler {
   private static final DateFormat CSV_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
   private static final Port SENSOR_PORT = SensorPort.S1;
   private static final int EXPECTED_SAMPLE_SIZE = 1;
-  private static final int SAMPLE_INTERVAL_MS = 1000;
+  private static final int SAMPLE_INTERVAL_MS = 1000 * 60; // every minute
   private static final float MIN_LIGHT_LEVEL = 0.03f;
 
   public static void main(String[] args) throws Exception {
