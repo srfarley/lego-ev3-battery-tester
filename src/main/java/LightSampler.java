@@ -19,7 +19,8 @@ public class LightSampler {
   private static final Port SENSOR_PORT = SensorPort.S1;
   private static final int EXPECTED_SAMPLE_SIZE = 1;
   private static final int SAMPLE_INTERVAL_MS = 1000 * 60; // every minute
-  private static final float MIN_LIGHT_LEVEL = 0.03f;
+  private static final float MINIMUM_LIGHT_LEVEL = 0.5f;
+  private static final int CONSECUTIVE_MINIMUMS_FOR_EXIT = 10;
 
   public static void main(String[] args) throws Exception {
     final Logger logger = logger();
@@ -35,12 +36,20 @@ public class LightSampler {
         float[] sampleValue = new float[sampleSize];
 
         try (FileWriter csvFileWriter = new FileWriter(CSV_FILE_NAME)) {
-          float lightLevel = Float.MAX_VALUE;
-          while (lightLevel > MIN_LIGHT_LEVEL) {
+          int numConsecutiveMinimums = 0;
+          while (numConsecutiveMinimums < CONSECUTIVE_MINIMUMS_FOR_EXIT) {
             sensorMode.fetchSample(sampleValue, 0);
-            lightLevel = sampleValue[0];
-            logger.info("ambient light = " + lightLevel);
+            float lightLevel = sampleValue[0];
+            logger.info("ambient light level = " + lightLevel);
             writeCsv(csvFileWriter, lightLevel);
+
+            if (lightLevel < MINIMUM_LIGHT_LEVEL) {
+              numConsecutiveMinimums++;
+            } else {
+              numConsecutiveMinimums = 0;
+            }
+            logger.info("number of consecutive minimum levels = " + numConsecutiveMinimums);
+
             Delay.msDelay(SAMPLE_INTERVAL_MS);
           }
         }
